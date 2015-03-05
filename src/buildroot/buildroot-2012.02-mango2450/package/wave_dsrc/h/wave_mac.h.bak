@@ -1,0 +1,285 @@
+
+#define THROUGHPUT_TX_COMP			0
+
+#define WAVE_RX_TX_BUF_UPDATE		1
+#define ETH_MAC_ADDR_LEN 		6
+
+
+/* DEBUG MODE */
+#define		WAVE_MAC_RX_DEBUG_MODE									1
+#define		WAVE_MAC_TX_DEBUG_MODE									2
+#define		ETHERNET_RX_DEBUG_MODE									4
+#define		ETHERNET_TX_DEBUG_MODE									8
+
+
+#define		MANAGEMENT_FRAME										0
+#define		DATA_FRAME												1
+
+#define		CONTROL_CHANNEL											0
+#define		SERVICE_CHANNEL											1
+
+#define		AC1															1
+#define		AC2															2
+#define		AC3															3
+#define		AC4															4
+
+#define		SEQ_NUM_MODULO											4096
+
+#define		WAVE_MAC_TABLE_MAX_NUM									100
+
+#define  EIP     0x0800
+#define  EARP    0x0806
+#define  ERARP   0x8035         /* RARP */
+#define  EVLAN   0x8100
+#define  EIP6    0x86DD
+#define  PPPOED  0x8863
+#define  PPPOES  0x8864
+#define  DOT1X   0x888E
+#define  VMC_PRO_ETH	0x88DC		/* WSMP */
+#define  VMC_PRO_SIO	0x88DF
+#define  VME	 		0x88DD //Management관련 메시지 kmj수정
+
+#define		ETHER_TYPE_IPV4											0x0800
+#define		ETHER_TYPE_IPV6											0x86DD
+#define		ETHER_TYPE_WSMP											0x88DC
+#define		ETHER_TYPE_ARP											0x0806
+#define		ETHER_TYPE_RARP											0x8035
+
+/* SHKO, [주의] 4096과 1024로 정의하면 커널이 부팅하다가 죽음. */
+#if 0
+#define 		WAVE_RX_QUEUE_SIZE											4096
+#define 		WAVE_RX_QUEUE_NUM											1024
+#else
+#define 		WAVE_RX_QUEUE_SIZE										2048
+#define 		WAVE_RX_QUEUE_NUM										256
+#endif
+
+#define 		ETHER_RX_QUEUE_SIZE										2048
+#define 		ETHER_RX_QUEUE_NUM										1024
+
+#define		ETHER_RX_DATA_INITIAL_INDEX								128			/* Ethernet으로 수신된 데이터는 ether_rx_queue 버퍼에서 여기에 정의된 index 부터 저장한다. 수신된 이더넷 헤더 앞에 WAVE MAC 헤더와 WSMP 헤더를 덧붙이기 위함. */
+
+#define 		WAVE_MAC_RX_QUEUE_SIZE									2048
+#define 		WAVE_MAC_RX_QUEUE_NUM									256
+#define		WAVE_MAC_RX_DATA_INITIAL_INDEX							16			/* 802.11p로 수신된 데이터는 wave_mac_rx_queue 버퍼에서 여기에 정의된 index 부터 저장한다. 수신된 802.11 헤더 앞에 이더넷 헤더를 덧붙이기 위함. */
+
+
+#define 		WAVE_RESEND_QUEUE_SIZE									2048
+#define 		WAVE_RESEND_QUEUE_NUM									32
+
+#define		DATA_RATE_3M_BPSK										0x0B
+#define		DATA_RATE_4_5M_BPSK										0x0F
+#define		DATA_RATE_6M_QPSK										0x0A
+#define		DATA_RATE_9M_QPSK										0x0E
+#define		DATA_RATE_12M_16QAM										0x09
+#define		DATA_RATE_18M_16QAM										0x0D
+#define		DATA_RATE_24M_64QAM										0x08
+#define		DATA_RATE_27M_64QAM										0x0C
+
+#define 		WAVE_MAC_PROTOCOL_VER									0x00
+
+/* Frame types. */
+#define 		WAVE_MAC_MGMT_FRAME_TYPE      							0x00
+#define 		WAVE_MAC_CTRL_FRAME_TYPE         							0x01
+#define 		WAVE_MAC_DATA_FRAME_TYPE         							0x02
+
+#define 		WAVE_MAC_MGMT_FRAME    									(WAVE_MAC_MGMT_FRAME_TYPE << 2)
+#define 		WAVE_MAC_CTRL_FRAME    									(WAVE_MAC_CTRL_FRAME_TYPE << 2)
+#define 		WAVE_MAC_DATA_FRAME    									(WAVE_MAC_DATA_FRAME_TYPE << 2)
+
+
+/* 802.11 규격의 Table 7-1 참조 */
+/* MANAGEMENT FRAME SUBTYPE */
+#define		PROBE_REQUEST_SUB_TYPE									0x04
+#define		PROBE_RESPONSE_SUB_TYPE									0x05
+#define		TIMING_ADVERTISEMENT_SUB_TYPE							0x06
+#define		BEACON_SUB_TYPE											0x08
+#define		ATIM_SUB_TYPE												0x09
+#define		ACTION_SUB_TYPE											0x0D
+
+#define		PROBE_REQUEST												(PROBE_REQUEST_SUB_TYPE << 4)
+#define		PROBE_RESPONSE											(PROBE_RESPONSE_SUB_TYPE << 4)
+#define		TIMING_ADVERTISEMENT										(TIMING_ADVERTISEMENT_SUB_TYPE << 4)
+#define		BEACON														(BEACON_SUB_TYPE << 4)
+#define		ATIM														(ATIM_SUB_TYPE << 4)
+#define		ACTION														(ACTION_SUB_TYPE << 4)
+
+/* CONTROL FRAME SUBTYPE */
+#define		BLOCK_ACK_REQ_SUB_TYPE									0x08
+#define		BLOCK_ACK_SUB_TYPE										0x09
+#define		PS_POLL_SUB_TYPE											0x0A
+#define		RTS_SUB_TYPE												0x0B
+#define		CTS_SUB_TYPE												0x0C
+#define		ACK_SUB_TYPE												0x0D
+#define		CF_END_SUB_TYPE											0x0E
+#define		CF_END_CF_ACK_SUB_TYPE									0x0F
+
+#define		BLOCK_ACK_REQ												(BLOCK_ACK_REQ_SUB_TYPE << 4)
+#define		BLOCK_ACK													(BLOCK_ACK_SUB_TYPE << 4)
+#define		PS_POLL														(PS_POLL_SUB_TYPE << 4)
+#define		RTS															(RTS_SUB_TYPE << 4)
+#define		CTS															(CTS_SUB_TYPE << 4)
+#define		ACK															(ACK_SUB_TYPE << 4)
+#define		CF_END														(CF_END_SUB_TYPE << 4)
+#define		CF_END_CF_ACK												(CF_END_CF_ACK_SUB_TYPE << 4)
+
+/* DATA FRAME SUBTYPE */
+#define		DATA_SUB_TYPE												0x00
+#define		DATA_CF_ACK_SUB_TYPE										0x01
+#define		DATA_CF_POLL_SUB_TYPE									0x02
+#define		DATA_CF_ACK_CF_POLL_SUB_TYPE							0x03
+#define		NULL_NO_DATA_SUB_TYPE									0x04
+#define		CF_ACK_NO_DATA_SUB_TYPE									0x05
+#define		CF_POLL_NO_DATA_SUB_TYPE								0x06
+#define		CF_ACK_CF_POLL_NO_DATA_SUB_TYPE						0x07
+#define		QOS_DATA_SUB_TYPE										0x08
+#define		QOS_DATA_CF_ACK_SUB_TYPE								0x09
+#define		QOS_DATA_CF_POLL_SUB_TYPE								0x0A
+#define		QOS_DATA_CF_ACK_CF_POLL_SUB_TYPE						0x0B
+
+#define		QOS_NULL_NO_DATA_SUB_TYPE								0x0C
+
+#define		QOS_CF_POLL_NO_DATA_SUB_TYPE							0x0E
+#define		QOS_CF_ACK_CF_POLL_NO_DATA_SUB_TYPE					0x0F
+
+#define		DATA														(DATA_SUB_TYPE << 4)
+#define		DATA_CF_ACK												(DATA_CF_ACK_SUB_TYPE << 4)
+#define		DATA_CF_POLL												(DATA_CF_POLL_SUB_TYPE << 4)
+#define		DATA_CF_ACK_CF_POLL										(DATA_CF_ACK_CF_POLL_SUB_TYPE << 4)
+#define		NULL_NO_DATA												(NULL_NO_DATA_SUB_TYPE << 4)
+#define		CF_ACK_NO_DATA											(CF_ACK_NO_DATA_SUB_TYPE << 4)
+#define		CF_POLL_NO_DATA											(CF_POLL_NO_DATA_SUB_TYPE << 4)
+#define		CF_ACK_CF_POLL_NO_DATA									(CF_ACK_CF_POLL_NO_DATA_SUB_TYPE << 4)
+#define		QOS_DATA													(QOS_DATA_SUB_TYPE << 4)
+#define		QOS_DATA_CF_ACK											(QOS_DATA_CF_ACK_SUB_TYPE << 4)
+#define		QOS_DATA_CF_POLL											(QOS_DATA_CF_POLL_SUB_TYPE << 4)
+#define		QOS_DATA_CF_ACK_CF_POLL									(QOS_DATA_CF_ACK_CF_POLL_SUB_TYPE << 4)
+
+#define		QOS_NULL_NO_DATA											(QOS_NULL_NO_DATA_SUB_TYPE << 4)
+
+#define		QOS_CF_POLL_NO_DATA										(QOS_CF_POLL_NO_DATA_SUB_TYPE << 4)
+#define		QOS_CF_ACK_CF_POLL_NO_DATA								(QOS_CF_ACK_CF_POLL_NO_DATA_SUB_TYPE << 4)
+
+
+#define 		IBSS_TO_DS_FROM_DS      									0x00		/* FromDS=0, ToDS=0 */
+#define 		EXT_TO_DS_FROM_DS           									0x01		/* FromDS=0, ToDS=1 */
+#define 		TO_DS_EXT_FROM_DS           									0x02		/* FromDS=1, ToDS=0 */
+#define 		EXT_TO_DS_EXT_FROM_DS           								0x03		/* FromDS=1, ToDS=1 */
+
+/* Time Calculation 을 위한 Default 값 */
+#define COMMON_TIME					40			// Preamble(32us) + Signal Field(8us)
+#define SYMBOL_TIME					8			// Per 1 Data OFDM Symbol(8us)
+#define MIDAMBLE_SYMBOL_TIME		8			// Per 1 Midamble OFDM Symbol(8us)
+#define SIFS_TIME					32			// SIFS Time(32us)
+#define ACK_LENGTH					134			// Length of ACK(134bits)
+
+#define DBPS_3M						24			// Data Bits Per OFDM Symbol at 3Mbps(24bits)
+#define DBPS_45M					36			// Data Bits Per OFDM Symbol at 4.5Mbps(36its)
+#define DBPS_6M						48			// Data Bits Per OFDM Symbol at 6Mbps(48bits)
+#define DBPS_9M						72			// Data Bits Per OFDM Symbol at 9Mbps(72bits)
+#define DBPS_12M					96			// Data Bits Per OFDM Symbol at 12Mbps(96bits)
+#define DBPS_18M					144			// Data Bits Per OFDM Symbol at 18Mbps(144bits)
+#define DBPS_24M					192			// Data Bits Per OFDM Symbol at 24Mbps(192bits)
+#define DBPS_27M					216			// Data Bits Per OFDM Symbol at 27Mbps(216bits)
+
+
+#define ENDIAN_SWAP16(A)	((((unsigned short)(A) & 0xff00) >> 8) | \
+							 (((unsigned short)(A) & 0x00ff) << 8))
+							 
+#define ENDIAN_SWAP32(A)	((((unsigned int)(A) & 0xff000000) >> 24) | \
+							 (((unsigned int)(A) & 0x00ff0000) >> 8) | \
+							 (((unsigned int)(A) & 0x0000ff00) << 8) | \
+							 (((unsigned int)(A) & 0x000000ff) << 24))
+
+typedef struct
+{
+	int Ocupied;
+	U1 wave_rx_dest_mac_addr[ETH_MAC_ADDR_LEN];
+}	WAVE_MAC_TABLE;
+
+typedef struct
+{
+	unsigned int rssi;
+	unsigned int data_rate;
+	unsigned int len;
+	unsigned int buf[WAVE_RX_QUEUE_SIZE];
+}	RX_FRAME_DATA;
+
+typedef struct
+{
+	unsigned int rssi;
+	unsigned int data_rate;
+}	RX_DATA_FRAME_INFO;
+
+
+typedef struct
+{
+	U4 header_len;
+	U1 mac_header[32];
+	U4 ap_len;
+	U1 *sbuf;
+}	TX_FRAME_DATA;
+
+typedef struct
+{
+	unsigned char ch_kind;
+	unsigned char access_catagory;
+	unsigned char	mac_header_len;
+	unsigned char dummy0;
+	
+	unsigned short len;
+	unsigned short dummy1;
+	
+	unsigned int frame_info;
+	unsigned char buf[WAVE_RX_QUEUE_SIZE];
+}	RESEND_FRAME_DATA;
+
+
+typedef struct
+{
+	U1 packet[ETHER_RX_QUEUE_SIZE];
+	U1 *data_ptr;
+	U4 data_len;  
+}	ETHER_RX_DATA;
+
+
+typedef struct
+{
+	unsigned int rssi;
+	unsigned int data_rate;
+	U1 packet[ETHER_RX_QUEUE_SIZE];
+	U1 *data_ptr;
+	U4 data_len;  
+}	WAVE_MAC_RX_DATA;
+
+extern WAVE_MAC_RX_DATA	wave_mac_rx_queue[WAVE_MAC_RX_QUEUE_NUM];
+extern int wave_mac_rx_queue_read_index;
+extern int wave_mac_rx_queue_write_index;
+
+extern WAVE_MAC_TABLE		wave_rx_dest_mac_table[WAVE_MAC_TABLE_MAX_NUM];
+extern U1 Broadcast_MAC_ADDR[ETH_MAC_ADDR_LEN] ;
+
+extern U1 dest_mac[ETH_MAC_ADDR_LEN];
+extern U1 wave_mac_dest_addr[ETH_MAC_ADDR_LEN];
+extern U1 wave_mac_src_addr[ETH_MAC_ADDR_LEN];
+extern int wave_mac_default_tx_power;
+extern int wave_mac_default_data_rate;
+extern int multi_ac_channel_alloc_flag;
+
+extern unsigned char my_eth0_mac_addr[ETH_MAC_ADDR_LEN];
+extern int wave_resend_cch1_ac1_frame_write_count;
+
+
+
+extern int Send_MPDU(int frame_kind, int ch_kind, int access, int len, int tx_power, int modulation, U1 from_to_ds, U1 *send_buf);
+extern int Store_Tx_Queue(int frame_kind, int ch_kind, int access, int len, int tx_power, int modulation, U1 from_to_ds, U1 *send_buf);
+extern int Store_Resend_WAVE_Tx_Queue(int frame_kind, int ch_kind, int access, int len, int tx_power, int modulation, U1 from_to_ds, U1 *send_buf);
+extern unsigned int read_wave_dsrc_reg32(int offset);
+extern void  write_wave_dsrc_reg32(int offset, unsigned int data);
+extern void init_wave_rx_dest_mac_table(void);
+extern int find_empty_wave_rx_dest_mac_table(void);
+extern int add_mac_addr_to_wave_rx_dest_mac_table(U1 *mac_addr);
+extern int find_wave_rx_dest_mac_table_with_mac_addr(U1 *mac_addr);
+
+
+

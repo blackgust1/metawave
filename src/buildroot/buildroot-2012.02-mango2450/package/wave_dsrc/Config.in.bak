@@ -1,0 +1,5 @@
+config BR2_PACKAGE_WAVE_DSRC
+       bool "wave_dsrc"
+       help
+         The wave_dsrc utility allows to create a set of device files
+         according to a configuration file.

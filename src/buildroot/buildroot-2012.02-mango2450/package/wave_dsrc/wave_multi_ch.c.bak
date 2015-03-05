@@ -1,0 +1,46 @@
+#include <pthread.h>
+#include <stdio.h>
+#include <sys/ioctl.h>
+#include "type_def.h"
+#include "task.h"
+#include "wave_reg.h"
+#include "wave_mac.h"
+#include "wave_int.h"
+#include "wave_manage_frame.h"
+#include "wsmp.h"
+#include "linked_list.h"
+#include "util.h"
+
+extern U1 *wave_dsrc_base;
+
+
+void Multi_Ch_OnOff(U1 flag)
+{
+	U2 reg_data;
+	if (flag)		/* Multi-CH On */
+	{
+		reg_data = reg_readw((wave_dsrc_base + WAVE_MODE_SET_L_REG_OFFSET));
+		reg_data |= 1;		/* Channel A PPS Mode */
+
+		reg_writew((wave_dsrc_base + WAVE_MODE_SET_L_REG_OFFSET), reg_data);
+
+		reg_data = reg_readw((wave_dsrc_base + WAVE_MULTICH_SET_L_REG_OFFSET));
+		reg_data |= 1;		/* Channel A Multi Channel Enable */
+
+		reg_writew((wave_dsrc_base + WAVE_MULTICH_SET_L_REG_OFFSET), reg_data);
+
+		
+	}
+	else			/* Multi-CH Off */
+	{
+		reg_data = reg_readw((wave_dsrc_base + WAVE_MODE_SET_L_REG_OFFSET));
+		reg_data &= ~(0x3);		/* Channel A, B S/W Mode */
+
+		reg_writew((wave_dsrc_base + WAVE_MODE_SET_L_REG_OFFSET), reg_data);
+
+		reg_data = reg_readw((wave_dsrc_base + WAVE_MULTICH_SET_L_REG_OFFSET));
+		reg_data &= ~(0x3);		/* Channel A, B Multi Channel Disable */
+
+		reg_writew((wave_dsrc_base + WAVE_MULTICH_SET_L_REG_OFFSET), reg_data);
+	}
+}

@@ -1,0 +1,94 @@
+/* vi: set sw=4 ts=4: */
+/*
+ * Poweroff reboot and halt, oh my.
+ *
+ * Copyright 2006 by Rob Landley <rob@landley.net>
+ *
+ * Licensed under GPLv2 or later, see file LICENSE in this tarball for details.
+ */
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include "type_def.h"
+#include "cpu_reg.h"
+#include "wave_reg.h"
+#include "wave_int.h"
+#include "linked_list.h"
+#include "task.h"
+
+pthread_t p_thread[5];
+
+char compiled_date_time[] = __DATE__ " " __TIME__;
+U4 built_date;									// 모듈이 컴파일된 날짜 (0xYYYYMMDD)
+U4 built_time;									// 모듈이 컴파일된 시각 (0x00HHMMSS)
+
+
+int main(int argc, char *argv[])
+{
+	int thr_id;
+   	int status;
+   	int a = 1;
+   	int b = 2;
+   	int c = 3;
+   	int ret=0;
+   	unsigned int val;
+
+	printf("wave_main start!!\n");
+	built_date = __DATE__to_yyyymmdd(compiled_date_time);
+	built_time = __TIME__to_hhmmss(compiled_date_time + 12);
+	
+
+	printf("Built on %s %s \n", str_date(built_date), str_time(built_time));
+
+	/* 처음에, WAVE_MAC_INT_STATUS_REG 레지스터를 읽어야만, EXT_INT4로 사용하는 GPIO12 핀의 초기값이 1이 되어 */
+	/* 처음에, EXT_INT4 인터럽트를 enable하자 마자 계속 EXT_INT4 인터럽트가 발생하는 것을 막을 수 있다. */
+	/* 즉, 이 레지스터를 읽어야만 발생된 인터럽트가 clear 되는 것 같다. */
+	val = SD_INDWORD(WAVE_MAC_INT_STATUS_REG);
+	printf("[main] WAVE_MAC_INT_STATUS_REG=0x%08x\n", val);		/* Interrupt Clear */
+
+	wave_mac_init();
+	wave_modem_init();
+	
+	ret = wave_externel_interrupt_init();
+
+#if 0
+	net_main();
+#endif
+
+	thr_id = pthread_create(&p_thread[0], NULL, monitor_thread, (void *)&a);
+	if (thr_id < 0)    	
+	{        
+		printf("[main]monitor_thread create fail:%d\n",thr_id);        
+		exit(0);    
+	}
+	
+	if (ret == 0)
+	{
+		wave_rcv_thread_id = pthread_create(&p_thread[1], NULL, wave_rcv_thread, (void *)&b);
+	    if (wave_rcv_thread_id < 0)
+	    {
+	        printf("[main]wave_rcv_thread create fail:%d\n",wave_rcv_thread_id);
+	        exit(0);
+	    }
+	}
+
+#if 0
+	net_rcv_thread_id = pthread_create(&p_thread[1], NULL, net_rcv_thread, (void *)&b);
+    if (net_rcv_thread_id < 0)
+    {
+        printf("[main]net_rcv_thread create fail:%d\n",net_rcv_thread_id);
+        exit(0);
+    }
+#endif
+ 
+
+	printf("SHKO1\n");
+	pthread_join(p_thread[0], (void *)&status);
+	printf("SHKO2\n");
+    //pthread_join(p_thread[1], (void *)&status);
+	//printf("SHKO3\n");
+	return 0;
+}

@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# Starts dropbear sshd.
+#
+
+# Make sure the dropbearkey progam exists
+[ -f /usr/bin/dropbearkey ] || exit 0
+
+start() {
+ 	echo -n "Starting qt-demo: "
+ 	export TSLIB_TSDEVICE=/dev/input/event1
+ 	QWS_MOUSE_PROTO=tslib:$TSLIB_TSDEVICE /usr/share/qt/demos/chip/chip -qws &
+	echo "OK"
+}
+stop() {
+	echo -n "Stopping qt-demo: "
+	echo "OK"
+}
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart|reload)
+  	restart
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+

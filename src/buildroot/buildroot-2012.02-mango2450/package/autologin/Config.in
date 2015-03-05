@@ -1,0 +1,6 @@
+config BR2_PACKAGE_AUTOLOGIN
+       bool "autologin"
+       default y
+       help
+         The autologin utility allows to create a set of device files
+         according to a configuration file.

@@ -1,0 +1,10 @@
+comment "Qwt requires Qt to be installed"
+	depends on !BR2_PACKAGE_QT
+
+menuconfig BR2_PACKAGE_QWT
+	bool "Qwt"
+	depends on BR2_PACKAGE_QT
+	help
+	  Qt Widgets for Technical Applications
+
+	  http://qwt.sourceforge.net/

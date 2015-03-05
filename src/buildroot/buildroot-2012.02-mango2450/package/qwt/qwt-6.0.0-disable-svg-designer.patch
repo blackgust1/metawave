@@ -1,0 +1,40 @@
+diff -urN qwt-6.0.0/qwtconfig.pri qwt-6.0.0_new/qwtconfig.pri
+--- qwt-6.0.0/qwtconfig.pri	2011-04-15 13:51:11.000000000 +0300
++++ qwt-6.0.0_new/qwtconfig.pri	2011-07-26 16:33:44.063285248 +0300
+@@ -79,7 +79,7 @@
+ # export a plot to a SVG document
+ ######################################################################
+ 
+-QWT_CONFIG     += QwtSvg
++QWT_CONFIG     -= QwtSvg
+ 
+ ######################################################################
+ # You can use the MathML renderer of the Qt solutions package to 
+@@ -98,7 +98,7 @@
+ # Otherwise you have to build it from the designer directory.
+ ######################################################################
+ 
+-QWT_CONFIG     += QwtDesigner
++QWT_CONFIG     -= QwtDesigner
+ 
+ ######################################################################
+ # If you want to auto build the examples, enable the line below
+diff -urN qwt-6.0.0/src/src.pro qwt-6.0.0_new/src/src.pro
+--- qwt-6.0.0/src/src.pro	2011-04-15 13:51:11.000000000 +0300
++++ qwt-6.0.0_new/src/src.pro	2011-07-26 16:33:44.019285248 +0300
+@@ -214,13 +214,13 @@
+ 
+ # Install directives
+ 
+-target.path    = $${QWT_INSTALL_LIBS}
++target.path    = /usr/lib/
+ 
+ doc.files      = $${QWT_ROOT}/doc/html 
+ unix:doc.files += $${QWT_ROOT}/doc/man
+ doc.path       = $${QWT_INSTALL_DOCS}
+ 
+-INSTALLS       = target doc
++INSTALLS       = target
+ 
+ CONFIG(lib_bundle) {
+ 
