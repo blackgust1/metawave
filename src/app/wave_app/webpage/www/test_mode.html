@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+
+<script language="JavaScript">
+var count   = 0;
+<!--
+    function count_func() {
+        if(count > 126 ) {
+            count = 0;
+            return count;
+        }
+
+        count++;
+        return count;
+    }
+
+    function time_func() {
+        var dt = new Date();
+        return dt.getSeconds() * 1000;
+    }
+
+    function random() {
+        form1.msgid.value       = 2;
+        form1.msgcnt.value      = count_func();
+        form1.secmark.value     = time_func();
+        form1.latitude.value    = Math.round(Math.random()*-900000000) + 900000000;
+        form1.longitude.value   = Math.round(Math.random()*-1800000000) + 1800000000;
+        form1.elevation.value   = Math.round(Math.random()*-4096) + 65535;
+        form1.heading.value     = Math.round(Math.random()*28800);
+        form1.steering.value    = Math.round(Math.random()*-126) + 127;
+        form1.size_width.value  = Math.round(Math.random()*1023);
+        form1.size_length.value = Math.round(Math.random()*4095);
+    }
+
+    function init() {
+        form1.msgid.value       = "";
+        form1.msgcnt.value      = "";
+        form1.id.value          = "";
+        form1.secmark.value     = "";
+        form1.latitude.value    = "";
+        form1.longitude.value   = "";
+        form1.elevation.value   = "";
+        form1.heading.value     = "";
+        form1.steering.value    = "";
+        form1.size_width.value  = "";
+        form1.size_length.value = "";
+    }
+//-->
+</script>
+
+<script name="javascript">
+    function open() {
+        document.getElementById('open_accuracy').style.display='none';
+        document.getElementById('close_accuracy').style.display='';
+    }
+
+    function close() {
+        document.getElementById('close_accuracy').style.display='none';
+        document.getElementById('open_accuracy').style.display='';
+    }
+
+    function open_accel() {
+        document.getElementById('open_accel').style.display='none';
+        document.getElementById('close_accel').style.display='';
+    }
+
+    function close_accel() {
+        document.getElementById('close_accel').style.display='none';
+        document.getElementById('open_accel').style.display='';
+    }
+
+    function open_speed() {
+        document.getElementById('open_speed').style.display='none';
+        document.getElementById('close_speed').style.display='';
+    }
+
+    function close_speed() {
+        document.getElementById('close_speed').style.display='none';
+        document.getElementById('open_speed').style.display='';
+    }
+
+    function open_brake() {
+        document.getElementById('open_brake').style.display='none';
+        document.getElementById('close_brake').style.display='';
+    }
+
+    function close_brake() {
+        document.getElementById('close_brake').style.display='none';
+        document.getElementById('open_brake').style.display='';
+    }
+</script>
+
+<html>
+    <head>
+		<title>Metabuild - Smart Highway</title>
+    
+        <meta charset="utf-8">
+        <title>CSS Tutorial | Layout</title>
+
+        <!-- 페이지 레이아웃 스타일 -->
+        <style>
+            #jb-container {
+                width: 1000px;
+                margin: 0px auto;
+                padding: 20px;
+                border: 1px solid #bcbcbc;
+                background-color: #F8F8FF;
+            }
+
+            #jb-header {
+                height: 100px;
+                padding: 20px;
+                margin-bottom: 20px;
+                border: 1px solid #bcbcbc;
+                background-color: #FFFFFF;
+            }
+
+            #jb-content {
+                width: 630px;
+                height: 1200px;
+                padding: 20px;
+                margin-bottom: 20px;
+                float: right;
+                border: 1px solid #bcbcbc;
+                background-color: #FFFFFF;
+            }
+
+            #jb-sidebar {
+                width: 260px;
+                height: 1200px;
+                padding: 20px;
+                margin-bottom: 20px;
+                float: left;
+                border: 1px solid #bcbcbc;
+                background-color: #FFFFFF;
+            }
+
+            #jb-footer {
+                height: 40px;
+                clear: both;
+                padding: 20px;
+                border: 1px solid #bcbcbc;
+                background-color: #FFFFFF;
+            }
+        </style>
+
+        <!-- 링크 스타일 -->
+        <style>
+            a:link {color:#007CD0;text-decoration:none}
+            a:visited {color:#007CD0;text-decoration:none}
+            a:active {color:#007CD0;text-decoration:none}
+            a:hover {color:#007CD0;text-decoration:none}
+        </style>
+    </head>
+
+    <body>
+        <!-- 레이아웃 화면 -->
+        <div id="jb-container">
+
+            <!-- 레이아웃 헤더 화면 -->
+            <div id="jb-header">
+                <img src="./img/log.jpg" width="960" height="100">
+            </div>
+            
+            <!-- 레이아웃 몸체 화면 -->
+            <div id="jb-content">
+                <h2>Basic Safety Message Test Mode</h2>
+
+                    <form name="form1" method="post" action="bsm_test.cgi">
+                        <p>
+                            <input type="button" value="ramdom" onclick="random()">
+                            <input type="button" value="초기화" onclick="init()">
+                        </p>
+
+                        <p><pre>Data Item               Data Value                  description</pre><p>
+                        <p><pre>msgID                   <input type="text" name="msgid" size=5></pre></p>
+
+                        <p><h3>blob1</h3></p>
+                        <p><pre>msgCnt                  <input type="text" name="msgcnt" size="2"></pre></p>
+                        <p><pre>id(4 bytes)             <input type="text" name="id" size="10">         IP주소를 입력하시오.</pre></p>
+                        <p><pre>secMark                 <input type="text" name="secmark" size="7"></pre></p>
+                        <p><pre>latitude                <input type="text" name="latitude" size="7"></pre></p>
+                        <p><pre>longitude               <input type="text" name="longitude" size="7"></pre></p>
+                        <p><pre>elevation               <input type="text" name="elevation" size="7"></pre></p>
+
+                        <p>
+                        <pre>accuracy                <span id=open_accuracy><a href="javascript:open();">내용 보기</a></span><span id=close_accuracy style="DISPLAY: none"><a href="javascript:close();">내용 접기</a>
+semi-major              <input type="text" name="major" size="7">             -127 ~ 127사이의 값 입력.
+semi-minor              <input type="text" name="minor" size="7">             -127 ~ 127사이의 값 입력.
+orientation             <input type="text" name="orientation" size="7">             0 ~ 32767사이의 값 입력.
+                        </pre></span>
+                        </p>
+
+                        <p>
+                        <pre>speed and trans         <span id=open_speed><a href="javascript:open_speed();">내용 보기</a></span><span id=close_speed style="DISPLAY: none"><a href="javascript:close_speed();">내용 접기</a>
+speed                   <input type="text" name="speed" size="7">             0 ~ 8191사이의 값 입력.
+transmission            <select name="transmission">
+                            <option value="0">In Neutral B'000'</option>
+                            <option value="32">In Park B'001'</option>
+                            <option value="64">Forward Gears B'010'</option>
+                            <option value="96">Reverse Gears B'011'</option>
+                            <option value="128">Reserved1 B'100'</option>
+                            <option value="160">Reserved2 B'101'</option>
+                            <option value="192">Reserved3 B'110'</option>
+                            <option value="224">Unavailable B'111'</option>
+                        </select>
+                        </pre></span>
+                        </p>
+
+                        <p><pre>heading                 <input type="text" name="heading" size="7"></pre></p>
+                        <p><pre>steering wheel          <input type="text" name="steering" size="7"></pre></p>
+                        <pre>accel Set               <span id=open_accel><a href="javascript:open_accel();">내용 보기</a></span><span id=close_accel style="DISPLAY: none"><a href="javascript:close_accel();">내용 접기</a>
+Longitudinal            <input type="text" name="longitudinal" size="7">             -2000 ~ 2000사이의 값 입력.
+Lateral                 <input type="text" name="lateral" size="7">             -2000 ~ 2000사이의 값 입력.
+Vertical                <input type="text" name="vertical" size="7">             -127 ~ 127사이의 값 입력.
+Yaw Rate                <input type="text" name="raw_rate" size="7">             -32765 ~ 32765사이의 값 입력.
+                        </pre></span>
+                        </p>
+
+                        <p>
+                        <pre>brake data              <span id=open_brake><a href="javascript:open_brake();">내용 보기</a></span><span id=close_brake style="DISPLAY: none"><a href="javascript:close_brake();">내용 접기</a>
+Brake Applied Status    <input type="checkbox" name="checklist_brake" value="32">Rear Left <input type="checkbox" name="checklist_brake" value="16">Front Left <input type="checkbox" name="checklist_brake" value="128">Rear Right <input type="checkbox" name="checklist_brake" value="64">Front Right
+Traction Control Status <select name="tcs">
+                            <option value="0">Not Equipped B'00'</option>
+                            <option value="4">off B'01'</option>
+                            <option value="8">on B'10'</option>
+                            <option value="12">Engaged B'11'</option>
+                        </select>
+AntiLock Brake Status   <select name="abs">
+                            <option value="0">Not Equipped B'00'</option>
+                            <option value="1">off B'01'</option>
+                            <option value="2">on B'10'</option>
+                            <option value="3">Engaged B'11'</option>
+                        </select>
+Stability Control Status<select name="scs">
+                            <option value="0">Not Equipped B'00'</option>
+                            <option value="64">off B'01'</option>
+                            <option value="128">on B'10'</option>
+                            <option value="192">Engaged B'11'</option>
+                        </select>
+Brake Boost Applied     <select name="bba">
+                            <option value="0">Not Equipped B'00'</option>
+                            <option value="16">off B'01'</option>
+                            <option value="32">on B'10'</option>
+                            <option value="48">Engaged B'11'</option>
+                        </select>
+                        </pre></span>
+                        </p>
+
+                        <p><pre>size, width             <input type="text" name="size_width" size="7"></pre></p>
+                        <p><pre>size, length            <input type="text" name="size_length" size="7"></pre></p>
+
+                        <p><input type="submit" value="전송">
+                    </form>
+                
+            </div>
+
+            <!-- 레이아웃 메뉴 화면 -->
+            <div id="jb-sidebar">
+                <ul>
+                    <p><li><a href="main.html">Status</a></li></p>
+                    <p><li><a href="test_mode.html">Test Mode(BSM)</a></li></p>
+                    <p><li><a href="setting.html">Setting</a></li></p>
+                </ul>
+            </div>
+
+            <!-- 레이아웃 푸더 화면 -->
+            <div id="jb-footer">
+                <img src="./img/footer.jpg" width="960" height="50">
+            </div>
+        </div>
+    </body>
+</html>
